@@ -2,6 +2,6 @@
 
 # Vimthub
 
-Use vim on github pull request comments
+Use vim on GitHub comments
 
 ![example](./.readme/vimthub.png)

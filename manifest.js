@@ -19,7 +19,7 @@ export const MANIFEST = (browser) => ({
     manifest_version: 3,
     name: NAME,
     version: VERSION,
-    description: "Use vim on github pull request comments",
+    description: "Use vim on GitHub comments",
     permissions: [],
     host_permissions: ["https://github.com/*"],
     content_scripts: CONTENT_FILE && [{
