@@ -10,7 +10,7 @@ import {
 } from "./scripts/build.config";
 
 export const NAME = "Vimthub";
-export const VERSION = "0.1.2";
+export const VERSION = "0.1.3";
 
 /**
  * @param {"chrome" | "firefox"} browser

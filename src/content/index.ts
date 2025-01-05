@@ -1,6 +1,6 @@
 import { Vim } from "./vim";
 
-const SELECTOR = "textarea[name$='comment[body]']" as "textarea";
+const SELECTOR = "textarea.js-comment-field" as "textarea";
 
 const style = document.createElement("style");
 
@@ -19,7 +19,7 @@ ${SELECTOR} {
 
 document.head.appendChild(style);
 
-let current = document.querySelectorAll(SELECTOR);
+let current: NodeListOf<HTMLTextAreaElement> | [] = [];
 
 function update() {
     const update = document.querySelectorAll(SELECTOR);
@@ -64,6 +64,8 @@ function update() {
 
     current = update;
 }
+
+update();
 
 new MutationObserver(update).observe(document.body, {
     childList: true,
