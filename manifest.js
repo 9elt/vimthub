@@ -10,7 +10,7 @@ import {
 } from "./scripts/build.config";
 
 export const NAME = "Vimthub";
-export const VERSION = "0.1.0";
+export const VERSION = "0.1.1";
 
 /**
  * @param {"chrome" | "firefox"} browser
@@ -21,7 +21,7 @@ export const MANIFEST = (browser) => ({
     version: VERSION,
     description: "Use vim on GitHub comments",
     permissions: [],
-    host_permissions: ["https://github.com/*"],
+    host_permissions: [],
     content_scripts: CONTENT_FILE && [{
         matches: ["https://github.com/*"],
         js: [CONTENT_FILE]

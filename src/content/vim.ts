@@ -248,6 +248,7 @@ export class Vim {
     undo: History[] = [];
     allowClipboardReset: boolean = false;
     selectionStart: number | null = null;
+    historyBeforeInsert: History | null = null;
     constructor(public textarea: HTMLTextAreaElement) {
         textarea.addEventListener("keydown", (event) => {
             if (!RESERVED_KEYS.includes(event.key)) {
@@ -268,8 +269,12 @@ function onKey(vim: Vim, key: Key | string): boolean {
     vim.keyseq.push(key);
 
     if (key === "Escape" || key === "C-c" || key === "C-s") {
-        if (vim.keyseq.length > 1 && vim.mode === Mode.INSERT) {
-            vim.modseq = vim.keyseq;
+        if (vim.mode === Mode.INSERT) {
+            saveUndoState(vim, vim.historyBeforeInsert!);
+
+            if (vim.keyseq.length > 1) {
+                vim.modseq = vim.keyseq;
+            }
         }
 
         vim.keyseq = [];
@@ -335,13 +340,19 @@ function exec(vim: Vim): void {
 
     vim.allowClipboardReset = true;
 
-    const prevHistoryState = toHistoryState(vim);
+    const prevHistoryState = {
+        text: getText(vim),
+        caret: getCaret(vim),
+    };
 
     for (var i = 0; i < repeat; i++) {
         vim.data.action!(vim, vim.data);
     }
 
     if (vim.data.mode !== undefined) {
+        if (vim.data.mode === Mode.INSERT) {
+            vim.historyBeforeInsert = prevHistoryState;
+        }
         setMode(vim, vim.data.mode);
     }
 
@@ -381,13 +392,6 @@ function setCaret(vim: Vim, caret: number): void {
     else {
         vim.textarea.setSelectionRange(caret, caret);
     }
-}
-
-function toHistoryState(vim: Vim): History {
-    return {
-        text: getText(vim),
-        caret: getCaret(vim),
-    };
 }
 
 function setMode(vim: Vim, mode: Mode): void {

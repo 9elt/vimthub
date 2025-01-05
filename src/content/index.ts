@@ -1,15 +1,15 @@
 import { Vim } from "./vim";
 
+const SELECTOR = "textarea[name$='comment[body]']" as "textarea";
+
 const style = document.createElement("style");
 
-style.textContent = `textarea {
+style.textContent = `${SELECTOR} {
     font-family: monospace !important;
     min-height: 256px !important;
 }`;
 
 document.head.appendChild(style);
-
-const SELECTOR = "textarea[name$='comment[body]']" as "textarea";
 
 let current = document.querySelectorAll(SELECTOR);
 
