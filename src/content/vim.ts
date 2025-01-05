@@ -249,7 +249,13 @@ export class Vim {
     allowClipboardReset: boolean = false;
     selectionStart: number | null = null;
     historyBeforeInsert: History | null = null;
-    constructor(public textarea: HTMLTextAreaElement) {
+    constructor(
+        public textarea: HTMLTextAreaElement,
+        public options: {
+            onModeChange?: (mode: "NORMAL" | "INSERT" | "VISUAL") => void;
+            onCmdSeq?: (cmdseq: string) => void;
+        } = {}
+    ) {
         textarea.addEventListener("keydown", (event) => {
             if (!RESERVED_KEYS.includes(event.key)) {
                 const key = event.ctrlKey
@@ -299,7 +305,9 @@ function onKey(vim: Vim, key: Key | string): boolean {
         return false;
     }
 
-    console.log(vim.cmdseq + key);
+    if (vim.options.onCmdSeq) {
+        vim.options.onCmdSeq(vim.cmdseq + key);
+    }
 
     if (vim.data.readNextChar) {
         vim.data.nextChar = key;
@@ -409,6 +417,14 @@ function setMode(vim: Vim, mode: Mode): void {
     }
 
     vim.mode = mode;
+
+    if (vim.options.onModeChange) {
+        vim.options.onModeChange(
+            vim.mode === Mode.COMMAND ? "NORMAL" :
+                vim.mode === Mode.INSERT ? "INSERT" :
+                    "VISUAL"
+        );
+    }
 }
 
 function resetCommand(vim: Vim): void {
