@@ -1,0 +1,5 @@
+#!/bin/bash
+
+[ -d 'zips' ] || mkdir zips
+
+cd dist/firefox && zip -r ../firefox.zip ./* && mv ../firefox.zip ../../zips

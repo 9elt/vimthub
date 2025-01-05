@@ -1,0 +1,9 @@
+#!/bin/bash
+
+[ -d 'zips' ] || mkdir zips
+
+rm -rf zips/*
+
+for zip in scripts/zip.*; do
+	bash "$zip"
+done

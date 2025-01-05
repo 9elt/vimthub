@@ -1,0 +1,5 @@
+#!/bin/bash
+
+[ -d 'zips' ] || mkdir zips
+
+cd dist && zip -r ../zips/chrome.zip chrome

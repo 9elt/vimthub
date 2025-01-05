@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "zip": "bash scripts/zip",
+        "build": "rm -rf dist && bun scripts/build.js"
+    }
+}
