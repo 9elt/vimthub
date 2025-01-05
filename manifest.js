@@ -53,7 +53,7 @@ export const MANIFEST = (browser) => ({
                 .toLowerCase()
                 .replace(/[^a-z0-9]/g, "-")
                 + "@example.org",
-            strict_min_version: "42.0"
+            strict_min_version: "58.0"
         }
     },
 });
